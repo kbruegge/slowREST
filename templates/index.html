@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="pure-g">
+        <div class="pure-u-2-5">
+                <img src="static/fact.png" class="pure-img" />
+        </div>
+
+        <div class="pure-u-3-5">
+            <div class="text-box">
+                <h3>Auxiliary Data</h3>
+                <p>
+                    This web service provides auxiliary data written by the telescope sensors during data taking.
+                    You can select the name of the table and the time range for which you want the information.
+                    Simply point your browser to
+                        <div class="code">
+                            <p>/aux/&lt;NAME&gt;&from=XXXXX&to=xxxxx</p>
+                        </div>
+                    and you'll recieve the data encoded in .json format.
+
+                </p>
+                <p>
+                    The following link for example will show you some weather information from timestamp
+                    16400.5 to 16400.7
+                    <div class="blocklink">
+                        <a href="/aux/TNG_WEATHER_DATA?from=16400.5&to=16400.7" >/aux/TNG_WEATHER_DATA?from=16400.5&to=16400.7</a>
+                    </div>
+                </p>
+            </div>
+        </div>
+</div>
+{% endblock %}
