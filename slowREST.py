@@ -5,6 +5,8 @@ from bson import json_util
 from flask.ext.restful import reqparse
 from flask import render_template
 from flask import abort
+from fact import time
+import dateutil
 
 
 app = Flask(__name__)
@@ -35,18 +37,22 @@ def service_page():
     return json_util.dumps(names)
 
 
+def check_date_string(str):
+    return dateutil.parser.parse(str)
+
 
 @app.route('/aux/<attribute_name>', methods=['GET'])
 def aux_data(attribute_name):
     if attribute_name not in names:
         abort(404)
     parser = reqparse.RequestParser()
-    parser.add_argument('from', type=float, help='start query at this time')
-    parser.add_argument('to', type=float, help='latest time to query')
+    parser.add_argument('from', type=check_date_string, help='start query at this time')
+    parser.add_argument('to', type=check_date_string, help='latest time to query')
     args = parser.parse_args(strict=True)
 
     start = args.get('from')
     end = args.get('to')
+    print(start)
 
     a = None
     if start is None or end is None:
@@ -54,6 +60,8 @@ def aux_data(attribute_name):
         a = []
     else:
         # print(start, end)
+        start = time.fjd(start)
+        end = time.fjd(end)
         a = db[attribute_name].find({"Time": {"$gte": start, "$lt": end}})
         # print("entries: " + str(a.count()))
 
