@@ -48,7 +48,7 @@ a {
     margin-bottom: 1em;
 }
 .footer {
-    position: absolute;
+    position: relative;
     bottom: 0px;
     margin-bottom: -0.5em;
     padding-bottom: -0.5em;

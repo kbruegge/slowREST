@@ -3,7 +3,7 @@
 <head lang="en">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.min.css" />
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -11,7 +11,7 @@
     <script>
         $(document).ready(function() {
             $(".chosen-select").chosen().change( function(e){
-                $("#select_link").attr("href", "/aux/" + $(this).val() + "?from=16404.0&to=16404.4");
+                $("#select_link").attr("href", "/aux/" + $(this).val() + "?from=2013-02-01-00:40UTC&to=2013-02-02-23:10UTC");
             } );
         });
 
@@ -32,7 +32,7 @@
                     <option value="{{ name }}"> {{ name }} </option>
              {% endfor %}
         </select>
-        <li class="pure-menu-item"><a id="select_link" href="/aux/TNG_WEATHER_DUST?from=16404.0&to=16404.4"> Go </a></li>
+        <li class="pure-menu-item"><a id="select_link" href="/aux/TNG_WEATHER_DUST?from=2013-02-01-00:40UTC&to=2013-02-02-23:10UTC"> Go </a></li>
     </ul>
 </div>
 <div class="content">
