@@ -1,4 +1,4 @@
-from io import BytesIO
+# from io import BytesIO
 from flask import Flask
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
@@ -8,10 +8,10 @@ from flask import render_template
 from flask import abort
 from flask import request
 from fact import time
-import matplotlib.pyplot as plt
-plt.style.use('ggplot')
-import pandas as pd
-import base64
+# import matplotlib.pyplot as plt
+# plt.style.use('ggplot')
+# import pandas as pd
+# import base64
 
 import dateutil
 
@@ -44,7 +44,7 @@ def connect_to_db():
 
 @app.route('/')
 def main_page():
-    return render_template('index.html', names=names)
+    return render_template('index.html', names=names, current_selection='TNG_WEATHER_DATA')
 
 
 @app.route('/services')
@@ -76,23 +76,23 @@ def aux_data(attribute_name):
         return json_data
     else:
         # print(a)ddd
-        io = BytesIO()
+        # io = BytesIO()
         data = list(a)
 
 
-        df = pd.DataFrame(data)
-
-        fig, ax = plt.subplots(1, 1)
-        df.hist(ax=ax,   color='lime', alpha=0.3)
-
-        # plt.tight_layout()
-        fig.savefig(io, format='png', bbox_inches='tight')
-
-        plot = base64.encodebytes(io.getvalue()).decode()
+        # df = pd.DataFrame(data)
+        #
+        # fig, ax = plt.subplots(1, 1)
+        # df.hist(ax=ax,   color='lime', alpha=0.3)
+        #
+        # # plt.tight_layout()
+        # fig.savefig(io, format='png', bbox_inches='tight')
+        #
+        # plot = base64.encodebytes(io.getvalue()).decode()
         # charts = aux.create_plots(df)
         # whisker = aux.create_box_whisker(df)
         # print(charts)
-        return render_template('service.html', names=names, plot=plot, current_selection=attribute_name,  json_data=json_util.dumps(data))
+        return render_template('service.html', names=names, plot=None, current_selection=attribute_name,  json_data=json_util.dumps(data))
 
 
 if __name__ == '__main__':
