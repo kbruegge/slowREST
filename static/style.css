@@ -60,3 +60,9 @@ a {
     height: 30px;
     margin-bottom: -10px;
 }
+
+.textarea#json {
+    overflow: scroll;
+    max-width: 700px;
+    max-height: 300px;
+}

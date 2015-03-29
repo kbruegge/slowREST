@@ -1,3 +1,4 @@
+from io import BytesIO
 from flask import Flask
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
@@ -7,7 +8,11 @@ from flask import render_template
 from flask import abort
 from flask import request
 from fact import time
-from plot import aux
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+import pandas as pd
+import base64
+
 import dateutil
 
 
@@ -62,16 +67,32 @@ def aux_data(attribute_name):
     parser.add_argument('to', type=check_date_string, help='latest time to query', required=True)
     args = parser.parse_args(strict=True)
 
-    start = time.fjd(args.get('from'))
-    end = time.fjd(args.get('to'))
-    a = db[attribute_name].find({"Time": {"$gte": start, "$lt": end}})
+    start = args.get('from')
+    end = args.get('to')
+    a = db[attribute_name].find({"Time": {"$gte": time.fjd(start), "$lt": time.fjd(end)}})
     # print("entries: " + str(a.count()))
-
     if request_wants_json():
-        return json_util.dumps(a)
-    chart = aux.test_plot()
-    #print(chart)
-    return render_template('service.html', names=names, chart=chart)
+        json_data = json_util.dumps(a)
+        return json_data
+    else:
+        # print(a)ddd
+        io = BytesIO()
+        data = list(a)
+
+
+        df = pd.DataFrame(data)
+
+        fig, ax = plt.subplots(1, 1)
+        df.hist(ax=ax,   color='lime', alpha=0.3)
+
+        # plt.tight_layout()
+        fig.savefig(io, format='png', bbox_inches='tight')
+
+        plot = base64.encodebytes(io.getvalue()).decode()
+        # charts = aux.create_plots(df)
+        # whisker = aux.create_box_whisker(df)
+        # print(charts)
+        return render_template('service.html', names=names, plot=plot, current_selection=attribute_name,  json_data=json_util.dumps(data))
 
 
 if __name__ == '__main__':

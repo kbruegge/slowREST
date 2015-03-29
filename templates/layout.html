@@ -14,27 +14,29 @@
                 $("#select_link").attr("href", "/aux/" + $(this).val() + "?from=2013-02-01-00:40UTC&to=2013-02-02-23:10UTC");
             } );
         });
-
-
-
     </script>
     <title>FACT AuxFile Service</title>
 </head>
 <body>
 <div class="pure-menu pure-menu-horizontal">
-    <a href="#" class="pure-menu-heading pure-menu-link">FACT AUX SERVICE</a>
+    <a href="{{ url_for('main_page') }}" class="pure-menu-heading pure-menu-link">FACT AUX SERVICE</a>
     <ul class="pure-menu-list">
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link">Contact</a></li>
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link">FACT Telescope</a></li>
-        <li class="pure-menu-item"><a href="#" class="pure-menu-link">Github Repo</a></li>
+        <li class="pure-menu-item"><a href="{{ url_for('main_page') }}" class="pure-menu-link">Contact</a></li>
+        <li class="pure-menu-item"><a href="http://fact-project.org" class="pure-menu-link">FACT Telescope</a></li>
+        <li class="pure-menu-item"><a href="https://github.com/mackaiver/slowREST" class="pure-menu-link">Github Repo</a></li>
          <select class="chosen-select pure-menu-item">
              {% for name in names %}
-                    <option value="{{ name }}"> {{ name }} </option>
+                    {% if current_selection == name %}
+                        <option selected="selected" value="{{ name }}"> {{ name }} </option>
+                    {% else %}
+                        <option value="{{ name }}"> {{ name }} </option>
+                    {% endif %}
              {% endfor %}
         </select>
-        <li class="pure-menu-item"><a id="select_link" href="/aux/TNG_WEATHER_DUST?from=2013-02-01-00:40UTC&to=2013-02-02-23:10UTC"> Go </a></li>
+        <li class="pure-menu-item"><a id="select_link" href="/aux/{{ current_selection }}?from=2013-02-01-00:40UTC&to=2013-02-02-23:10UTC"> Go </a></li>
     </ul>
 </div>
+
 <div class="content">
     <h1>The FACT Auxiliary Data Web Service </h1>
     {% block content %}{% endblock %}

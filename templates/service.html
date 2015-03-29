@@ -2,9 +2,13 @@
 {% block content %}
 <div class="pure-g">
         <div class="pure-u-1">
-
-            {{chart|safe}}
-
+            <img src="data:image/png;base64,{{ plot }}" id="plot" />
         </div>
+
+    <div class="pure-u-1">
+    <textarea readonly="readonly" rows="20" cols="65" id="json">
+        {{json_data}}
+    </textarea>
+    </div>
 </div>
 {% endblock %}
